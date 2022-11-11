@@ -1,0 +1,5 @@
+polygon-api-client~=1.0.0b
+sqlalchemy
+numpy
+pandas
+matplotlib
