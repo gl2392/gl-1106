@@ -15,8 +15,8 @@ with open(path.join(HERE, 'README.md'), encoding='utf-8') as f:
 # This call to setup() does all the work
 setup(
     name="gl-1106",  #
-    version="0.1.2",
-    description="Get data from polygon api",
+    version="0.2.0",
+    description="hw2",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://google.com/", # toto change to github page
@@ -40,3 +40,19 @@ setup(
                       "matplotlib",
                       "pandas"]
 )
+
+# 1. install build tools
+# pip install wheel twine
+
+# 2. build the library
+# python setup.py sdist bdist_wheel
+
+# 3. check build results
+# twine check dist/*    --->  PASSED ???
+
+# 4. upload the library to pypi
+# twine upload dist/*
+
+
+
+# upload code to github
