@@ -135,7 +135,7 @@ def aggregate_raw_data_tables(engine, currency_pairs):
 # and stores the results.
 def main(currency_pairs):
     import os
-    os.makedirs("final", exist_ok=True)
+    os.makedirs("sqlite", exist_ok=True)
 
     # The api key given by the professor
     key = "beBybSi8daPgsTp5yx5cHtHpYcrjp5Jq"
@@ -203,21 +203,6 @@ def main(currency_pairs):
                     "INSERT INTO " + from_ + to + "_raw(ticktime, fxrate, inserttime) VALUES (:ticktime, :fxrate, :inserttime)"),
                     [{"ticktime": dt, "fxrate": avg_price, "inserttime": insert_time}])
 
-# A dictionary defining the set of currency pairs we will be pulling data for
-currency_pairs = [["AUD","USD",[],portfolio("AUD","USD")],
-                  ["GBP","EUR",[],portfolio("GBP","EUR")],
-                  # ["USD","CAD",[],portfolio("USD","CAD")],
-                  # ["USD","JPY",[],portfolio("USD","JPY")],
-                  # ["USD","MXN",[],portfolio("USD","MXN")],
-                  # ["EUR","USD",[],portfolio("EUR","USD")],
-                  # ["USD","CNY",[],portfolio("USD","CNY")],
-                  # ["USD","CZK",[],portfolio("USD","CZK")],
-                  # ["USD","PLN",[],portfolio("USD","PLN")],
-                  # ["USD","INR",[],portfolio("USD","INR")]
-                  ]
-
-# Run the main data collection loop
-main(currency_pairs)
 
 
 

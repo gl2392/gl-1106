@@ -1,6 +1,6 @@
 ### Installation
 
-> pip install pip install pip install polygon-guansli
+> pip install gl-1106==0.2.1
 
 ### Get started
 How to use this package:

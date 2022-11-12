@@ -1,5 +1,5 @@
 # Please install the latest library
-# pip install gl-1106==0.2.0
+# pip install gl-1106==0.2.2
 
 
 
