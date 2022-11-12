@@ -15,7 +15,7 @@ with open(path.join(HERE, 'README.md'), encoding='utf-8') as f:
 # This call to setup() does all the work
 setup(
     name="gl-1106",  #
-    version="0.2.2",
+    version="0.2.4",
     description="hw2",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -48,12 +48,12 @@ setup(
 # python setup.py sdist bdist_wheel
 
 # 3. check build results
-# twine check dist/*    --->  PASSED ???
+# twine check dist/*                    --->  PASSED ???
 
 # 4. upload the library to pypi
 # twine upload dist/*
 
-# https://pypi.org/project/gl-1106/0.2.1/
+# https://pypi.org/project/gl-1106/0.2.4/
 
 
 # upload code to github

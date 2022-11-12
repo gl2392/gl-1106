@@ -1,10 +1,9 @@
 # Please install the latest library
-# pip install gl-1106==0.2.2
-
-
+# pip install gl-1106=0.2.4
 
 import os
 from get_data import *
+
 #Limit the the currencies pair for test
 # A dictionary defining the set of currency pairs we will be pulling data for
 currency_pairs = [["AUD","USD",[],portfolio("AUD","USD")],
@@ -18,11 +17,6 @@ currency_pairs = [["AUD","USD",[],portfolio("AUD","USD")],
                   ["USD","PLN",[],portfolio("USD","PLN")],
                   ["USD","INR",[],portfolio("USD","INR")]
                   ]
-
-# check if database already exists
-if "three_pairs.db" in os.listdir():
-    print("Database Already exists! ")
-    os.remove("three_pairs.db")
 
 # Run the main data collection loop
 main(currency_pairs)

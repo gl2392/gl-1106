@@ -1,6 +1,6 @@
 ### Installation
 
-> pip install gl-1106==0.2.1
+> pip install gl-1106
 
 ### Get started
 How to use this package:

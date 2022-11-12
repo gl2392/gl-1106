@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: gl-1106
-Version: 0.2.2
+Version: 0.2.4
 Summary: hw2
 Home-page: https://google.com/
 Author: GuansLi
@@ -18,7 +18,7 @@ Description-Content-Type: text/markdown
 
 ### Installation
 
-> pip install gl-1106==0.2.1
+> pip install gl-1106
 
 ### Get started
 How to use this package:

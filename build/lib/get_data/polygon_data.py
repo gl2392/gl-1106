@@ -157,7 +157,7 @@ def main(currency_pairs):
     client = RESTClient(key)
     # with RESTClient(key) as client:
     # Loop that runs until the total duration of the program hits 24 hours.
-    while count < 86400:  # 86400 seconds = 24 hours
+    while count < 10*60*60:  # 86400 seconds = 24 hours
         # Make a check to see if 6 minutes has been reached or not
         if agg_count == 3600:
             # Aggregate the data and clear the raw data tables
@@ -167,12 +167,12 @@ def main(currency_pairs):
 
         # Only call the api every 1 second, so wait here for 0.75 seconds, because the
         # code takes about .15 seconds to run
-        time.sleep(0.75)
+        time.sleep(0.5)
 
         # Increment the counters
         count += 1
         agg_count += 1
-        print(f"Progress: {count} / 86400")
+        print(f"Progress: {count} / 36000")
 
         # Loop through each currency pair
         for currency in currency_pairs:
