@@ -15,7 +15,7 @@ with open(path.join(HERE, 'README.md'), encoding='utf-8') as f:
 # This call to setup() does all the work
 setup(
     name="gl-1106",  #
-    version="0.2.4",
+    version="0.2.6",
     description="hw2",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -57,6 +57,17 @@ setup(
 
 
 # upload code to github
-
 # https://github.com/gl2392/gl-1106.git
 
+# steps
+# 1. add all files
+# git add .
+
+# 2. commit (add a message)
+# git commit -m "some message"
+
+# 3. send to github  server
+# git push origin master
+
+# 4. at anytime, check file status
+# git status

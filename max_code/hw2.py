@@ -22,7 +22,6 @@ currency_pairs = [["AUD","USD",[],portfolio("AUD","USD")],
 main(currency_pairs)
 
 
-
 # read database, write to csv
 def db_to_csv(currency_pairs):
     import sqlite3
@@ -35,3 +34,4 @@ def db_to_csv(currency_pairs):
     con.close()
 
 db_to_csv(currency_pairs)
+

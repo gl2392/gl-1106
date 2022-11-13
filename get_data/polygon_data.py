@@ -54,7 +54,6 @@ class portfolio(object):
             print("There was not enough of the target currency (%s) to make another sell." % self.to)
 
 
-
         # Function slightly modified from polygon sample code to format the date string
 def ts_to_datetime(ts) -> str:
     return datetime.datetime.fromtimestamp(ts / 1000.0).strftime('%Y-%m-%d %H:%M:%S')
@@ -76,21 +75,16 @@ def initialize_raw_data_tables(engine,currency_pairs):
 def initialize_aggregated_tables(engine,currency_pairs):
     with engine.begin() as conn:
         for curr in currency_pairs:
-            conn.execute(text("CREATE TABLE "+curr[0]+curr[1]+"_agg(max_price numeric, min_price numeric, vol numeric,"
-                                                              "mean_price numeric, upper_bands numeric,"
-                                                              "lower_bands numeric, fd numeric"
-                                                              ");"))
+            conn.execute(text("CREATE TABLE "+curr[0]+curr[1]+"_agg(max_price numeric, min_price numeric, "
+                                                              "vol numeric, mean_price numeric, fd numeric);"))
+
 
 
 is_first_six_minute = True
-n = 1
-
 # This function is called every 6 minutes to aggregate the data, store it in the aggregate table,
 # and then delete the raw data
 def aggregate_raw_data_tables(engine, currency_pairs):
     global is_first_six_minute
-    global n
-
     with engine.begin() as conn:
         for curr in currency_pairs:
             # result = conn.execute(text("SELECT AVG(fxrate) as avg_price, COUNT(fxrate) as tot_count FROM " + curr[0] + curr[1] + "_raw;"))
@@ -111,25 +105,35 @@ def aggregate_raw_data_tables(engine, currency_pairs):
                 is_first_six_minute = False
 
             # Step 2:  Keltner Upper Bands
-            upper_bands = mean_price + n * 0.025 * vol
+            upper_bands = [mean_price + i * 0.025 * vol for i in range(100)]
 
             # Step 3: Keltner Lower Bands
-            lower_bands = mean_price - n * 0.025 * vol
+            lower_bands = [mean_price - i * 0.025 * vol for i in range(100)]
 
             # Step 4:
-            if vol == 0:
+            # count N. How determin "cross" ?
+            # If a price "P", stay in between two bands, that means "cross".
+            N = 0
+            for p in price_every_6_minutes:
+                # check upper bands
+                for j in range(1, 100):
+                    if upper_bands[j-1] <= p <= upper_bands[j]:
+                        N += 1
+                # check lower bands
+                for j in range(1, 100):
+                    if lower_bands[j - 1] <= p <= lower_bands[j]:
+                        N += 1
+
+            if vol == 0 or is_first_six_minute:
                 fd = 0
             else:
-                fd = n / vol
+                fd = N / vol
 
             conn.execute(text("INSERT INTO " + curr[0] + curr[1] +
-                "_agg (max_price, min_price, vol, mean_price, upper_bands, lower_bands, fd) "
-                "VALUES (:max_price, :min_price, :vol, :mean_price, :upper_bands, :lower_bands, :fd);"),
+                "_agg (max_price, min_price, vol, mean_price, fd) "
+                "VALUES (:max_price, :min_price, :vol, :mean_price, :fd);"),
                  [{"max_price": max_price, "min_price": min_price, "vol": vol, "mean_price":mean_price,
-                   "upper_bands": upper_bands, "lower_bands": lower_bands, "fd": fd}])
-
-    n += 1
-
+                   "fd": fd}])
 
 # This main function repeatedly calls the polygon api every 1 seconds for 24 hours
 # and stores the results.
@@ -157,9 +161,9 @@ def main(currency_pairs):
     client = RESTClient(key)
     # with RESTClient(key) as client:
     # Loop that runs until the total duration of the program hits 24 hours.
-    while count < 10*60*60:  # 86400 seconds = 24 hours
+    while count < 36000:  # 86400 seconds = 24 hours
         # Make a check to see if 6 minutes has been reached or not
-        if agg_count == 3600:
+        if agg_count == 360:
             # Aggregate the data and clear the raw data tables
             aggregate_raw_data_tables(engine, currency_pairs)
             reset_raw_data_tables(engine, currency_pairs)
@@ -167,7 +171,7 @@ def main(currency_pairs):
 
         # Only call the api every 1 second, so wait here for 0.75 seconds, because the
         # code takes about .15 seconds to run
-        time.sleep(0.5)
+        time.sleep(0.75)
 
         # Increment the counters
         count += 1
